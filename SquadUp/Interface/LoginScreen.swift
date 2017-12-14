@@ -2,7 +2,7 @@
 //  LoginScreen.swift
 //  SquadUp
 //
-//  Created by Jacob on 12/9/17.
+//  Created by Jacob Mendelowitz on 12/9/17.
 //  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
 //
 
@@ -24,6 +24,7 @@ class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        GIDSignIn.sharedInstance().signInSilently()
     }
     
     override func initializeViews() {
@@ -49,8 +50,15 @@ class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
                 } else {
                     DataManager.user = loadedUser
                 }
-                print("USER: \(DataManager.user!.id), \(DataManager.user!.name)")
-                self.show(screen: MenuScreen.self)
+                BackendManager.getFriendData(for: DataManager.user!) {
+                    userWithFriends in
+                    BackendManager.getGroupData(for: DataManager.user!) {
+                        userWithGroups in
+                        DataManager.updateCurrentUserRegistration() {
+                            self.show(screen: MenuScreen.self)
+                        }
+                    }
+                }
             }
         }
     }

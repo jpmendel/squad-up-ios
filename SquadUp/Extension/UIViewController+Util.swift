@@ -37,4 +37,11 @@ extension UIViewController {
         }
     }
     
+    internal func createConfirmAlert(title: String, message: String, callback: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: callback)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
 }

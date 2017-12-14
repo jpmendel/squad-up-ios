@@ -2,7 +2,7 @@
 //  FriendsView.swift
 //  SquadUp
 //
-//  Created by Jacob on 12/8/17.
+//  Created by Jacob Mendelowitz on 12/8/17.
 //  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 
 class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
-    private var friendNameField: UITextField!
+    private var addFriendTextField: UITextField!
     
     private var addFriendButton: UIButton!
     
@@ -27,7 +27,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     }
     
     private func initializeViews() {
-        friendNameField = view.viewWithTag(5) as! UITextField
+        addFriendTextField = view.viewWithTag(5) as! UITextField
         addFriendButton = view.viewWithTag(6) as! UIButton
         friendList = view.viewWithTag(7) as! UITableView
         createGroupButton = view.viewWithTag(8) as! UIButton
@@ -64,7 +64,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
     func viewWasSelected() {
         resetSelectedFriends()
-        friendList.reloadData()
+        refreshData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -132,11 +132,91 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     }
     
     private func addFriend() {
-        
+        if addFriendTextField.hasText {
+            BackendManager.getUserRecord(addFriendTextField.text!) {
+                user in
+                if let user = user {
+                    BackendManager.addFriend(DataManager.user!, user)
+                    self.refreshData()
+                    if let token = user.registrationToken {
+                        BackendManager.sendAddedAsFriendMessage(
+                            to: token,
+                            DataManager.user!.id, DataManager.user!.name
+                        )
+                    }
+                } else {
+                    self.view.makeToast("User does not exist", duration: 2.0, position: .bottom)
+                }
+            }
+        } else {
+            view.makeToast("Enter a user email", duration: 2.0, position: .bottom)
+        }
+        addFriendTextField.text = ""
+        stopEditingTextField()
     }
     
     private func createGroup() {
-        baseScreen.show(screen: MeetUpScreen.self)
+        var selectedFriends = [User]()
+        selectedFriends += [DataManager.user!]
+        for friend in DataManager.user!.friends {
+            if friend.selected {
+                selectedFriends += [friend]
+            }
+        }
+        let alert = UIAlertController(title: "Squad Up", message: "Enter a name for the group:", preferredStyle: .alert)
+        alert.addTextField() {
+            textField in
+            textField.placeholder = "Enter group name"
+        }
+        let okAction = UIAlertAction(title: "OK", style: .default) {
+            action in
+            if let textFields = alert.textFields {
+                let textField = textFields[0]
+                if textField.hasText && textField.text!.count > 1 {
+                    self.view.makeToast("Created group: \(textField.text!)", duration: 2.0, position: .bottom)
+                    let createdGroup = Group(withName: textField.text!)
+                    for friend in selectedFriends {
+                        createdGroup.memberIDs += [friend.id]
+                        createdGroup.members += [friend]
+                        friend.groupIDs += [createdGroup.id]
+                        friend.groups += [createdGroup]
+                    }
+                    
+                    BackendManager.createGroupRecord(createdGroup)
+                    
+                    var recipients = [String]()
+                    for friend in selectedFriends {
+                        BackendManager.createUserRecord(friend)
+                        if friend != DataManager.user! {
+                            if let token = friend.registrationToken {
+                                recipients += [token]
+                            }
+                        }
+                    }
+                    
+                    for recipient in recipients {
+                        BackendManager.sendAddedToGroupMessage(
+                            to: recipient,
+                            DataManager.user!.id, DataManager.user!.name,
+                            createdGroup.id, createdGroup.name
+                        )
+                    }
+                    
+                    self.resetSelectedFriends()
+                    self.refreshData()
+                } else {
+                    self.view.makeToast("Enter a name of at least 2 characters", duration: 2.0, position: .bottom)
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        baseScreen.present(alert, animated: true)
+    }
+    
+    func refreshData() {
+        friendList.reloadData()
     }
     
 }

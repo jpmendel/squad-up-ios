@@ -11,6 +11,7 @@
 		161C7F8B1FDC9C7A00F4AEA7 /* LoginScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161C7F891FDC9C7A00F4AEA7 /* LoginScreen.xib */; };
 		161F3EF81FDA3A6D0048AAB4 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161F3EF61FDA3A6D0048AAB4 /* MenuScreen.swift */; };
 		161F3EF91FDA3A6D0048AAB4 /* MenuScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F3EF71FDA3A6D0048AAB4 /* MenuScreen.xib */; };
+		16346A431FE218360059FEA8 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16346A421FE218360059FEA8 /* Toast.swift */; };
 		16712D0D1FDCB19E0048A5AB /* MeetUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16712D0B1FDCB19E0048A5AB /* MeetUpScreen.swift */; };
 		16712D0E1FDCB19E0048A5AB /* MeetUpScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16712D0C1FDCB19E0048A5AB /* MeetUpScreen.xib */; };
 		16798B761FDA2AEE00E157B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16798B751FDA2AEE00E157B4 /* AppDelegate.swift */; };
@@ -30,6 +31,7 @@
 		16A765FE1FDB46E500E0C93D /* UIView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A765FD1FDB46E500E0C93D /* UIView+Util.swift */; };
 		16A766001FDB47DC00E0C93D /* BackendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A765FF1FDB47DC00E0C93D /* BackendManager.swift */; };
 		16A766021FDB49E100E0C93D /* ServerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A766011FDB49E100E0C93D /* ServerData.swift */; };
+		16BAADDF1FE2076F00967EE5 /* Array+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAADDE1FE2076F00967EE5 /* Array+Util.swift */; };
 		16D59B661FDB17060025EAA9 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D59B651FDB17060025EAA9 /* FriendsView.swift */; };
 		16D59B681FDB18AB0025EAA9 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D59B671FDB18AB0025EAA9 /* BaseView.swift */; };
 		16D59B6A1FDB21AE0025EAA9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D59B691FDB21AE0025EAA9 /* User.swift */; };
@@ -46,6 +48,7 @@
 		161C7F891FDC9C7A00F4AEA7 /* LoginScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginScreen.xib; sourceTree = "<group>"; };
 		161F3EF61FDA3A6D0048AAB4 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
 		161F3EF71FDA3A6D0048AAB4 /* MenuScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuScreen.xib; sourceTree = "<group>"; };
+		16346A421FE218360059FEA8 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		16712D0B1FDCB19E0048A5AB /* MeetUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpScreen.swift; sourceTree = "<group>"; };
 		16712D0C1FDCB19E0048A5AB /* MeetUpScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetUpScreen.xib; sourceTree = "<group>"; };
 		16798B721FDA2AED00E157B4 /* SquadUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SquadUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +71,7 @@
 		16A765FD1FDB46E500E0C93D /* UIView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Util.swift"; sourceTree = "<group>"; };
 		16A765FF1FDB47DC00E0C93D /* BackendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendManager.swift; sourceTree = "<group>"; };
 		16A766011FDB49E100E0C93D /* ServerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerData.swift; sourceTree = "<group>"; };
+		16BAADDE1FE2076F00967EE5 /* Array+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Util.swift"; sourceTree = "<group>"; };
 		16D59B651FDB17060025EAA9 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		16D59B671FDB18AB0025EAA9 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		16D59B691FDB21AE0025EAA9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 		16798B8C1FDA2BB900E157B4 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				16346A421FE218360059FEA8 /* Toast.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 				16A765FB1FDB465E00E0C93D /* UIScreen+Util.swift */,
 				16A765FD1FDB46E500E0C93D /* UIView+Util.swift */,
 				167D52381FDC70B2004C8DEA /* Notification.Name+Notifications.swift */,
+				16BAADDE1FE2076F00967EE5 /* Array+Util.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -407,7 +413,9 @@
 				16798B941FDA2D2E00E157B4 /* LaunchScreen.swift in Sources */,
 				16A765FC1FDB465E00E0C93D /* UIScreen+Util.swift in Sources */,
 				161C7F8A1FDC9C7A00F4AEA7 /* LoginScreen.swift in Sources */,
+				16346A431FE218360059FEA8 /* Toast.swift in Sources */,
 				16D59B6A1FDB21AE0025EAA9 /* User.swift in Sources */,
+				16BAADDF1FE2076F00967EE5 /* Array+Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

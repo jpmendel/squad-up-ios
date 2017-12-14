@@ -1,0 +1,19 @@
+//
+//  Array+Util.swift
+//  SquadUp
+//
+//  Created by Jacob on 12/13/17.
+//  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
+//
+
+import Foundation
+
+extension Array where Element: Equatable {
+    
+    mutating func remove(object: Element) {
+        if let index = index(of: object) {
+            remove(at: index)
+        }
+    }
+    
+}

@@ -2,7 +2,7 @@
 //  BackendManager.swift
 //  SquadUp
 //
-//  Created by Jacob on 12/8/17.
+//  Created by Jacob Mendelowitz on 12/8/17.
 //  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
 //
 
@@ -341,6 +341,80 @@ class BackendManager {
                 } else {
                     callback(nil)
                 }
+        }
+    }
+    
+    static func getFriendData(for user: User, callback: ((User) -> Void)? = nil) {
+        var friendList = [User]()
+        if user.friendIDs.isEmpty {
+            user.friends = friendList
+            if let callback = callback {
+                callback(user)
+            }
+        }
+        for i in 0..<user.friendIDs.count {
+            getUserRecord(user.friendIDs[i]) {
+                loadedUser in
+                if let loadedUser = loadedUser {
+                    friendList += [loadedUser]
+                }
+                if i == user.friendIDs.count - 1 {
+                    user.friends = friendList
+                    if let callback = callback {
+                        callback(user)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func getGroupData(for user: User, callback: ((User) -> Void)? = nil) {
+        var groupList = [Group]()
+        if user.groupIDs.isEmpty {
+            user.groups = groupList
+            if let callback = callback {
+                callback(user)
+            }
+        }
+        for i in 0..<user.groupIDs.count {
+            getGroupRecord(user.groupIDs[i]) {
+                loadedGroup in
+                if let loadedGroup = loadedGroup {
+                    groupList += [loadedGroup]
+                }
+                if i == user.groupIDs.count - 1 {
+                    user.groups = groupList
+                    if let callback = callback {
+                        callback(user)
+                    }
+                }
+            }
+        }
+    }
+    
+    static func addFriend(_ user1: User, _ user2: User) {
+        if !user1.friendIDs.contains(user2.id) {
+            user1.friendIDs += [user2.id]
+            user1.friends += [user2]
+            createUserRecord(user1)
+        }
+        if !user2.friendIDs.contains(user1.id) {
+            user2.friendIDs += [user1.id]
+            user2.friends += [user1]
+            createUserRecord(user2)
+        }
+    }
+    
+    static func unfriend(_ user1: User, _ user2: User) {
+        if user1.friendIDs.contains(user2.id) {
+            user1.friendIDs.remove(object: user2.id)
+            user1.friends.remove(object: user2)
+            createUserRecord(user1)
+        }
+        if user2.friendIDs.contains(user1.id) {
+            user2.friendIDs.remove(object: user1.id)
+            user2.friends.remove(object: user1)
+            createUserRecord(user2)
         }
     }
     

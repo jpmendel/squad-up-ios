@@ -2,7 +2,7 @@
 //  MeetUpScreen.swift
 //  SquadUp
 //
-//  Created by Jacob on 12/9/17.
+//  Created by Jacob Mendelowitz on 12/9/17.
 //  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
 //
 
@@ -62,7 +62,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     override func screenCompatibility() {
         super.screenCompatibility()
         if UIScreen.main.screenSize == .iPhoneX {
-            map.iPhoneXToolbarCorrection()
+            map.iPhoneXNavBarCorrection()
         }
     }
     
