@@ -11,15 +11,15 @@ import Firebase
 
 class BackendManager {
     
-    static let messagingServerURL = "https://fcm.googleapis.com/fcm/send"
+    internal static let messagingServerURL = "https://fcm.googleapis.com/fcm/send"
     
-    static let userCollection = "users"
+    internal static let userCollection = "users"
     
-    static let groupCollection = "groups"
+    internal static let groupCollection = "groups"
     
-    static let userList = "user_list"
+    internal static let userList = "user_list"
     
-    static let firestoreDatabase = Firestore.firestore()
+    internal static let firestoreDatabase = Firestore.firestore()
     
     private static func sendPostRequest(to address: String, with data: [String: Any], callback: @escaping ([String: Any]?) -> Void) {
         if let url = URL(string: address) {
@@ -47,15 +47,15 @@ class BackendManager {
         }
     }
     
-    static func startListening(to topic: String) {
+    internal static func startListening(to topic: String) {
         Messaging.messaging().subscribe(toTopic: topic)
     }
     
-    static func stopListening(to topic: String) {
+    internal static func stopListening(to topic: String) {
         Messaging.messaging().unsubscribe(fromTopic: topic)
     }
     
-    static func sendLoginMessage(to topic: String, _ senderID: String, _ senderName: String, _ latitude: Double, _ longitude: Double) {
+    internal static func sendLoginMessage(to topic: String, _ senderID: String, _ senderName: String, _ latitude: Double, _ longitude: Double) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = "/topics/" + topic
@@ -76,7 +76,7 @@ class BackendManager {
         }
     }
     
-    static func sendLocationMessage(to topic: String, _ senderID: String, _ senderName: String, _ latitude: Double, _ longitude: Double) {
+    internal static func sendLocationMessage(to topic: String, _ senderID: String, _ senderName: String, _ latitude: Double, _ longitude: Double) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = "/topics/" + topic
@@ -97,7 +97,7 @@ class BackendManager {
         }
     }
     
-    static func sendReadyRequestMessage(to topic: String, _ senderID: String, _ senderName: String) {
+    internal static func sendReadyRequestMessage(to topic: String, _ senderID: String, _ senderName: String) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = "/topics/" + topic
@@ -116,7 +116,7 @@ class BackendManager {
         }
     }
     
-    static func sendReadyResponseMessage(to topic: String, _ senderID: String, _ senderName: String, _ receiverID: String, _ readyResponse: Bool) {
+    internal static func sendReadyResponseMessage(to topic: String, _ senderID: String, _ senderName: String, _ receiverID: String, _ readyResponse: Bool) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = "/topics/" + topic
@@ -137,7 +137,7 @@ class BackendManager {
         }
     }
     
-    static func sendReadyDecisionMessage(to topic: String, _ senderID: String, _ senderName: String, _ decision: Bool) {
+    internal static func sendReadyDecisionMessage(to topic: String, _ senderID: String, _ senderName: String, _ decision: Bool) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = "/topics/" + topic
@@ -157,7 +157,7 @@ class BackendManager {
         }
     }
     
-    static func sendAddedAsFriendMessage(to recipient: String, _ senderID: String, _ senderName: String) {
+    internal static func sendAddedAsFriendMessage(to recipient: String, _ senderID: String, _ senderName: String) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = recipient
@@ -176,7 +176,7 @@ class BackendManager {
         }
     }
 
-    static func sendRemovedAsFriendMessage(to recipient: String, _ senderID: String, _ senderName: String) {
+    internal static func sendRemovedAsFriendMessage(to recipient: String, _ senderID: String, _ senderName: String) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = recipient
@@ -195,7 +195,7 @@ class BackendManager {
         }
     }
     
-    static func sendAddedToGroupMessage(to recipient: String, _ senderID: String, _ senderName: String, _ groupID: String, _ groupName: String) {
+    internal static func sendAddedToGroupMessage(to recipient: String, _ senderID: String, _ senderName: String, _ groupID: String, _ groupName: String) {
         var json = [String: Any]()
         json["token"] = Messaging.messaging().fcmToken
         json["to"] = recipient
@@ -236,7 +236,7 @@ class BackendManager {
         return user
     }
     
-    static func createUserRecord(_ user: User, callback: (() -> Void)? = nil) {
+    internal static func createUserRecord(_ user: User, callback: (() -> Void)? = nil) {
         firestoreDatabase.collection(userCollection).document(user.id)
             .setData(buildDocumentFromUser(user)) {
                 error in
@@ -251,7 +251,7 @@ class BackendManager {
             }
     }
     
-    static func deleteUserRecord(_ userID: String, callback: (() -> Void)? = nil) {
+    internal static func deleteUserRecord(_ userID: String, callback: (() -> Void)? = nil) {
         firestoreDatabase.collection(userCollection).document(userID)
             .delete() {
                 error in
@@ -266,7 +266,7 @@ class BackendManager {
             }
     }
     
-    static func getUserRecord(_ userID: String, callback: @escaping (User?) -> Void) {
+    internal static func getUserRecord(_ userID: String, callback: @escaping (User?) -> Void) {
         firestoreDatabase.collection(userCollection).document(userID)
             .getDocument() {
                 document, error in
@@ -298,7 +298,7 @@ class BackendManager {
         return group
     }
     
-    static func createGroupRecord(_ group: Group, callback: (() -> Void)? = nil) {
+    internal static func createGroupRecord(_ group: Group, callback: (() -> Void)? = nil) {
         firestoreDatabase.collection(groupCollection).document(group.id)
             .setData(buildDocumentFromGroup(group)) {
                 error in
@@ -313,7 +313,7 @@ class BackendManager {
         }
     }
     
-    static func deleteGroupRecord(_ groupID: String, callback: (() -> Void)? = nil) {
+    internal static func deleteGroupRecord(_ groupID: String, callback: (() -> Void)? = nil) {
         firestoreDatabase.collection(groupCollection).document(groupID)
             .delete() {
                 error in
@@ -328,7 +328,7 @@ class BackendManager {
         }
     }
     
-    static func getGroupRecord(_ userID: String, callback: @escaping (Group?) -> Void) {
+    internal static func getGroupRecord(_ userID: String, callback: @escaping (Group?) -> Void) {
         firestoreDatabase.collection(groupCollection).document(userID)
             .getDocument() {
                 document, error in
@@ -344,7 +344,7 @@ class BackendManager {
         }
     }
     
-    static func getFriendData(for user: User, callback: ((User) -> Void)? = nil) {
+    internal static func getFriendData(for user: User, callback: ((User) -> Void)? = nil) {
         var friendList = [User]()
         if user.friendIDs.isEmpty {
             user.friends = friendList
@@ -368,7 +368,7 @@ class BackendManager {
         }
     }
     
-    static func getGroupData(for user: User, callback: ((User) -> Void)? = nil) {
+    internal static func getGroupData(for user: User, callback: ((User) -> Void)? = nil) {
         var groupList = [Group]()
         if user.groupIDs.isEmpty {
             user.groups = groupList
@@ -392,7 +392,7 @@ class BackendManager {
         }
     }
     
-    static func addFriend(_ user1: User, _ user2: User) {
+    internal static func addFriend(_ user1: User, _ user2: User) {
         if !user1.friendIDs.contains(user2.id) {
             user1.friendIDs += [user2.id]
             user1.friends += [user2]
@@ -405,7 +405,7 @@ class BackendManager {
         }
     }
     
-    static func unfriend(_ user1: User, _ user2: User) {
+    internal static func unfriend(_ user1: User, _ user2: User) {
         if user1.friendIDs.contains(user2.id) {
             user1.friendIDs.remove(object: user2.id)
             user1.friends.remove(object: user2)

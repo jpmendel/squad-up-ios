@@ -31,7 +31,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private var group: Group!
 
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
         initializeMap()
         initializeLocationManager()
@@ -39,17 +39,17 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         resetValues()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    internal override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Squad Up"
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    internal override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         BackendManager.stopListening(to: group.id)
     }
     
-    override func initializeViews() {
+    internal override func initializeViews() {
         super.initializeViews()
         map = view.viewWithTag(1) as! MKMapView
         statusText = view.viewWithTag(2) as! UILabel
@@ -59,7 +59,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         startAnimatingText()
     }
     
-    override func screenCompatibility() {
+    internal override func screenCompatibility() {
         super.screenCompatibility()
         if UIScreen.main.screenSize == .iPhoneX {
             map.iPhoneXNavBarCorrection()
@@ -104,7 +104,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         locationManager.requestLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
         myLocation = location
         addLocation(location.coordinate, for: user.id, named: user.name)
@@ -114,7 +114,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         animateScreenIn()
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("[MeetUpScreen] Failed to update location.")
     }
     
@@ -186,7 +186,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         }
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
         } else {

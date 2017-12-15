@@ -14,7 +14,7 @@ import GoogleSignIn
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
-    var window: UIWindow?
+    internal var window: UIWindow?
     
     private func configureServices(_ application: UIApplication) {
         DataManager.configure()
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.makeKeyAndVisible()
     }
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         configureServices(application)
         setupAppearance()
         setupWindow()
@@ -59,15 +59,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    internal func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
     }
     
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    internal func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("[AppDelegate] Registration Token: \(fcmToken)")
     }
     
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+    internal func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         if !remoteMessage.appData.isEmpty {
             let messageType = remoteMessage.appData["type"] as! String
             if messageType == FirebaseMessage.login {
@@ -90,15 +90,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {}
+    internal func applicationWillResignActive(_ application: UIApplication) {}
     
-    func applicationDidEnterBackground(_ application: UIApplication) {}
+    internal func applicationDidEnterBackground(_ application: UIApplication) {}
     
-    func applicationWillEnterForeground(_ application: UIApplication) {}
+    internal func applicationWillEnterForeground(_ application: UIApplication) {}
     
-    func applicationDidBecomeActive(_ application: UIApplication) {}
+    internal func applicationDidBecomeActive(_ application: UIApplication) {}
     
-    func applicationWillTerminate(_ application: UIApplication) {}
+    internal func applicationWillTerminate(_ application: UIApplication) {}
 
 }
 

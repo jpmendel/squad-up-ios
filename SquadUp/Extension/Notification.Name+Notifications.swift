@@ -10,20 +10,20 @@ import Foundation
 
 extension Notification.Name {
     
-    static let loggedIntoGroup = Notification.Name("logged-into-group")
+    internal static let loggedIntoGroup = Notification.Name("logged-into-group")
     
-    static let sentLocationBack = Notification.Name("sent-location-back")
+    internal static let sentLocationBack = Notification.Name("sent-location-back")
     
-    static let readyRequest = Notification.Name("ready-request")
+    internal static let readyRequest = Notification.Name("ready-request")
     
-    static let readyResponse = Notification.Name("ready-response")
+    internal static let readyResponse = Notification.Name("ready-response")
     
-    static let readyDecision = Notification.Name("ready-decision")
+    internal static let readyDecision = Notification.Name("ready-decision")
     
-    static let addedAsFriend = Notification.Name("added-as-friend")
+    internal static let addedAsFriend = Notification.Name("added-as-friend")
     
-    static let removedAsFriend = Notification.Name("removed-as-friend")
+    internal static let removedAsFriend = Notification.Name("removed-as-friend")
     
-    static let addedToGroup = Notification.Name("added-to-group")
+    internal static let addedToGroup = Notification.Name("added-to-group")
     
 }

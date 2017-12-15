@@ -12,7 +12,7 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
     private var groupList: UITableView!
     
-    override func awakeFromNib() {
+    internal override func awakeFromNib() {
         super.awakeFromNib()
         initializeViews()
         setupGroupList()
@@ -27,15 +27,15 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         groupList.dataSource = self
     }
     
-    func viewWasSelected() {
+    internal func viewWasSelected() {
         groupList.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataManager.user?.groups.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "groupCell")
         if (cell == nil) {
             tableView.register(UINib(nibName: "GroupCell", bundle: nil), forCellReuseIdentifier: "groupCell")

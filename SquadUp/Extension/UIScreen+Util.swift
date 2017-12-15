@@ -10,7 +10,7 @@ import UIKit
 
 extension UIScreen {
     
-    enum ScreenSize: CGFloat {
+    internal enum ScreenSize: CGFloat {
         case unknown = 0.0
         case iPhone4 = 960.0
         case iPhone5 = 1136.0
@@ -19,7 +19,7 @@ extension UIScreen {
         case iPhoneX = 2436.0
     }
     
-    var screenSize: ScreenSize {
+    internal var screenSize: ScreenSize {
         if let screenSize = ScreenSize(rawValue: nativeBounds.height) {
             return screenSize
         }

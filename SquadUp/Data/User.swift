@@ -10,21 +10,21 @@ import Foundation
 
 class User: NSObject {
     
-    var id: String
+    internal var id: String
     
-    var name: String
+    internal var name: String
     
-    var friendIDs: [String] = [String]()
+    internal var friendIDs: [String] = [String]()
     
-    var friends: [User] = [User]()
+    internal var friends: [User] = [User]()
     
-    var groupIDs: [String] = [String]()
+    internal var groupIDs: [String] = [String]()
     
-    var groups: [Group] = [Group]()
+    internal var groups: [Group] = [Group]()
     
-    var registrationToken: String? = nil
+    internal var registrationToken: String? = nil
     
-    var selected: Bool = false
+    internal var selected: Bool = false
     
     init(_ id: String, _ name: String) {
         self.id = id

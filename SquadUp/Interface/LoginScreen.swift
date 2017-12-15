@@ -12,32 +12,32 @@ import Firebase
 
 class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
 
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
         setupGoogleSignIn()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    internal override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Squad Up"
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    internal override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().signInSilently()
     }
     
-    override func initializeViews() {
+    internal override func initializeViews() {
         super.initializeViews()
     }
     
-    func setupGoogleSignIn() {
+    internal func setupGoogleSignIn() {
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
     }
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if error == nil {
             let userEmail = user.profile.email!
             let userName = user.profile.name!
@@ -63,7 +63,7 @@ class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
         }
     }
     
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+    internal func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         
     }
 

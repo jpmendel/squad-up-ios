@@ -18,7 +18,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
     private var createGroupButton: UIButton!
 
-    override func awakeFromNib() {
+    internal override func awakeFromNib() {
         super.awakeFromNib()
         initializeViews()
         formatScreen()
@@ -62,16 +62,16 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         friendList.dataSource = self
     }
     
-    func viewWasSelected() {
+    internal func viewWasSelected() {
         resetSelectedFriends()
         refreshData()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataManager.user?.friends.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "friendCell")
         if cell == nil {
             tableView.register(UINib(nibName: "FriendCell", bundle: nil), forCellReuseIdentifier: "friendCell")
@@ -215,7 +215,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         baseScreen.present(alert, animated: true)
     }
     
-    func refreshData() {
+    internal func refreshData() {
         friendList.reloadData()
     }
     

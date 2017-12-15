@@ -16,17 +16,17 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
     
     private var tabMenu: UITabBar!
     
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
         setupTabViews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    internal override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         title = "Squad Up"
     }
     
-    override func initializeViews() {
+    internal override func initializeViews() {
         super.initializeViews()
         groupsView = view.viewWithTag(1) as! GroupsView
         groupsView.baseScreen = self
@@ -35,7 +35,7 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
         tabMenu = view.viewWithTag(3) as! UITabBar
     }
     
-    override func screenCompatibility() {
+    internal override func screenCompatibility() {
         super.screenCompatibility()
         if UIScreen.main.screenSize == .iPhoneX {
             groupsView.iPhoneXNavBarCorrection()
@@ -48,7 +48,7 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
         friendsView.transform = CGAffineTransform.identity.translatedBy(x: view.frame.width, y: 0.0)
     }
     
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+    internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if item.title == "Groups" {
             UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseOut], animations: {
                 self.groupsView.transform = CGAffineTransform.identity

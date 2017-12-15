@@ -23,7 +23,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.223466164704-j8ihfnth48jullk3rmudor1f3fjd2mhf</string>
+				<string>com.googleusercontent.apps.41542746236-emio1m7dfh6rjo15rlr9ta9ngvvqt0r9</string>
 			</array>
 		</dict>
 	</array>
@@ -31,6 +31,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires access to your location to find a meeting spot.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -52,7 +54,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires access to your location to find a meeting spot.</string>
 </dict>
 </plist>

@@ -10,16 +10,16 @@ import UIKit
 
 class BaseView: UIView {
     
-    var baseScreen: BaseScreen!
+    internal var baseScreen: BaseScreen!
     
-    var view: UIView!
+    internal var view: UIView!
     
-    required override init(frame: CGRect) {
+    internal required override init(frame: CGRect) {
         super.init(frame: frame)
         xibSetup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    internal required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         xibSetup()
     }

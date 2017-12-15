@@ -10,13 +10,13 @@ import Foundation
 
 class Group: NSObject {
     
-    var id: String
+    internal var id: String
     
-    var name: String
+    internal var name: String
     
-    var memberIDs: [String] = [String]()
+    internal var memberIDs: [String] = [String]()
     
-    var members: [User] = [User]()
+    internal var members: [User] = [User]()
     
     init(_ id: String, _ name: String) {
         self.id = id

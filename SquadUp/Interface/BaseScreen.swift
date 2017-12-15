@@ -10,15 +10,15 @@ import UIKit
 
 class BaseScreen: UIViewController {
     
-    required override init(nibName: String?, bundle: Bundle?) {
+    internal required override init(nibName: String?, bundle: Bundle?) {
         super.init(nibName: nibName, bundle: bundle)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    internal required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         navigationController?.isNavigationBarHidden = false
@@ -26,21 +26,21 @@ class BaseScreen: UIViewController {
         screenCompatibility()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    internal override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initializeNotificationReceiver()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    internal override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
-    func initializeViews() { /* Override in subclass */ }
+    internal func initializeViews() { /* Override in subclass */ }
     
-    func screenCompatibility() { /* Override in subclass */ }
+    internal func screenCompatibility() { /* Override in subclass */ }
     
-    func initializeNotificationReceiver() {
+    internal func initializeNotificationReceiver() {
         NotificationCenter.default.addObserver(
             self, selector: #selector(addedAsFriendNotification(_:)),
             name: .addedAsFriend, object: nil
@@ -51,11 +51,11 @@ class BaseScreen: UIViewController {
         )
     }
     
-    @objc func addedAsFriendNotification(_ notification: Notification) {
+    @objc internal func addedAsFriendNotification(_ notification: Notification) {
         
     }
     
-    @objc func addedToGroupNotification(_ notification: Notification) {
+    @objc internal func addedToGroupNotification(_ notification: Notification) {
         
     }
 
