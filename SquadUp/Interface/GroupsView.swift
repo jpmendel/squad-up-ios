@@ -28,7 +28,7 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     }
     
     internal func viewWasSelected() {
-        groupList.reloadData()
+        refreshData()
     }
     
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,6 +44,10 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         let groupName = cell!.contentView.subviews[0] as! UILabel
         groupName.text = DataManager.user?.groups[indexPath.row].name ?? "Group Name"
         return cell!
+    }
+    
+    internal func refreshData() {
+        groupList.reloadData()
     }
 
 }

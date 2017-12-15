@@ -10,14 +10,15 @@ import UIKit
 
 class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
     
-    private var groupsView: GroupsView!
+    internal var groupsView: GroupsView!
     
-    private var friendsView: FriendsView!
+    internal var friendsView: FriendsView!
     
     private var tabMenu: UITabBar!
     
     internal override func viewDidLoad() {
         super.viewDidLoad()
+        showSignOutButton()
         setupTabViews()
     }
     

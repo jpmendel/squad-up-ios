@@ -11,6 +11,8 @@ import GoogleSignIn
 import Firebase
 
 class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
+    
+    internal var signInButton: GIDSignInButton!
 
     internal override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +31,15 @@ class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
     
     internal override func initializeViews() {
         super.initializeViews()
+        signInButton = view.viewWithTag(1) as! GIDSignInButton
     }
     
     internal func setupGoogleSignIn() {
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        signInButton.style = .standard
+        signInButton.center = CGPoint(x: view.frame.width / 2 - 18, y: signInButton.center.y)
     }
     
     internal func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -64,7 +69,7 @@ class LoginScreen: BaseScreen, GIDSignInDelegate, GIDSignInUIDelegate {
     }
     
     internal func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        
+        print("[LoginScreen] User Disconnected")
     }
 
 }
