@@ -33,15 +33,11 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
 
     internal override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Squad Up"
         initializeMap()
         initializeLocationManager()
         formatScreen()
         resetValues()
-    }
-    
-    internal override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        title = "Squad Up"
     }
     
     internal override func viewDidDisappear(_ animated: Bool) {

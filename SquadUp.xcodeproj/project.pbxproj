@@ -14,6 +14,7 @@
 		16346A431FE218360059FEA8 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16346A421FE218360059FEA8 /* Toast.swift */; };
 		16712D0D1FDCB19E0048A5AB /* MeetUpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16712D0B1FDCB19E0048A5AB /* MeetUpScreen.swift */; };
 		16712D0E1FDCB19E0048A5AB /* MeetUpScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16712D0C1FDCB19E0048A5AB /* MeetUpScreen.xib */; };
+		1672198B1FE4BE1700181A82 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1672198A1FE4BE1700181A82 /* SearchTextField.swift */; };
 		16798B761FDA2AEE00E157B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16798B751FDA2AEE00E157B4 /* AppDelegate.swift */; };
 		16798B7D1FDA2AEE00E157B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16798B7C1FDA2AEE00E157B4 /* Assets.xcassets */; };
 		16798B801FDA2AEE00E157B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16798B7E1FDA2AEE00E157B4 /* LaunchScreen.storyboard */; };
@@ -51,6 +52,7 @@
 		16346A421FE218360059FEA8 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		16712D0B1FDCB19E0048A5AB /* MeetUpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetUpScreen.swift; sourceTree = "<group>"; };
 		16712D0C1FDCB19E0048A5AB /* MeetUpScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetUpScreen.xib; sourceTree = "<group>"; };
+		1672198A1FE4BE1700181A82 /* SearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		16798B721FDA2AED00E157B4 /* SquadUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SquadUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16798B751FDA2AEE00E157B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16798B7C1FDA2AEE00E157B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		16798B8C1FDA2BB900E157B4 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				1672198A1FE4BE1700181A82 /* SearchTextField.swift */,
 				16346A421FE218360059FEA8 /* Toast.swift */,
 			);
 			path = Utility;
@@ -403,6 +406,7 @@
 				16D59B661FDB17060025EAA9 /* FriendsView.swift in Sources */,
 				167D52391FDC70B2004C8DEA /* Notification.Name+Notifications.swift in Sources */,
 				16A766001FDB47DC00E0C93D /* BackendManager.swift in Sources */,
+				1672198B1FE4BE1700181A82 /* SearchTextField.swift in Sources */,
 				16712D0D1FDCB19E0048A5AB /* MeetUpScreen.swift in Sources */,
 				16E3A1851FDA36AA00F9B1D0 /* DataManager.swift in Sources */,
 				16798B8F1FDA2C0300E157B4 /* BaseScreen.swift in Sources */,

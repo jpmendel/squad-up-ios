@@ -13,6 +13,8 @@ class DataManager {
     
     internal static var user: User? = nil
     
+    internal static var userList = [String]()
+    
     internal static func configure() {
         user = User("test@email.com", "Test User")
         user!.friendIDs = ["person1@email.com", "person2@email.com"]

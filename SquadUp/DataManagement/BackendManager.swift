@@ -230,8 +230,8 @@ class BackendManager {
         let id = document["id"] as! String
         let name = document["name"] as! String
         let user = User(id, name)
-        user.friendIDs = document["friendIDs"] as! [String]
-        user.groupIDs = document["groupIDs"] as! [String]
+        user.friendIDs = document["friendIDs"] as? [String] ?? [String]()
+        user.groupIDs = document["groupIDs"] as? [String] ?? [String]()
         user.registrationToken = document["registrationToken"] as! String?
         return user
     }
@@ -294,7 +294,7 @@ class BackendManager {
         let id = document["id"] as! String
         let name = document["name"] as! String
         let group = Group(id, name)
-        group.memberIDs = document["memberIDs"] as! [String]
+        group.memberIDs = document["memberIDs"] as? [String] ?? [String]()
         return group
     }
     
@@ -310,7 +310,7 @@ class BackendManager {
                 if callback != nil {
                     callback!()
                 }
-        }
+            }
     }
     
     internal static func deleteGroupRecord(_ groupID: String, callback: (() -> Void)? = nil) {
@@ -325,7 +325,7 @@ class BackendManager {
                 if callback != nil {
                     callback!()
                 }
-        }
+            }
     }
     
     internal static func getGroupRecord(_ userID: String, callback: @escaping (Group?) -> Void) {
@@ -341,7 +341,7 @@ class BackendManager {
                 } else {
                     callback(nil)
                 }
-        }
+            }
     }
     
     internal static func getFriendData(for user: User, callback: ((User) -> Void)? = nil) {
@@ -386,6 +386,44 @@ class BackendManager {
                     user.groups = groupList
                     if let callback = callback {
                         callback(user)
+                    }
+                }
+            }
+        }
+    }
+    
+    internal static func getUserList(callback: @escaping ([String]) -> Void) {
+        firestoreDatabase.collection(userList).document(userList)
+            .getDocument() {
+                document, error in
+                guard let document = document, error == nil else {
+                    callback([String]())
+                    return
+                }
+                if document.exists {
+                    let userList = document.data()["user_list"] as? [String] ?? [String]()
+                    callback(userList)
+                } else {
+                    callback([String]())
+                }
+            }
+    }
+    
+    internal static func addUserToUserList(_ userID: String) {
+        getUserList() {
+            loadedUsers in
+            var listOfUsers = loadedUsers
+            if !listOfUsers.contains(userID) {
+                listOfUsers += [userID]
+                var listData = [String: Any]()
+                listData["user_list"] = listOfUsers
+                firestoreDatabase.collection(userList).document(userList)
+                .setData(listData) {
+                    error in
+                    if let err = error {
+                        print("[BackendManager] Failed to Update User List: \(err)")
+                    } else {
+                        print("[BackendManager] Successfully Added User to List: \(userID)")
                     }
                 }
             }

@@ -19,6 +19,10 @@ class LaunchScreen: BaseScreen {
     
     internal override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        BackendManager.getUserList() {
+            userList in
+            DataManager.userList = userList
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.show(screen: LoginScreen.self)
         }

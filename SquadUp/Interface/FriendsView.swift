@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
-    private var addFriendTextField: UITextField!
+    private var addFriendTextField: SearchTextField!
     
     private var addFriendButton: UIButton!
     
@@ -23,11 +24,12 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         initializeViews()
         formatScreen()
         setupButtons()
+        refreshSearchTextField()
         setupFriendList()
     }
     
     private func initializeViews() {
-        addFriendTextField = view.viewWithTag(5) as! UITextField
+        addFriendTextField = view.viewWithTag(5) as! SearchTextField
         addFriendButton = view.viewWithTag(6) as! UIButton
         friendList = view.viewWithTag(7) as! UITableView
         createGroupButton = view.viewWithTag(8) as! UIButton
@@ -43,6 +45,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     private func setupButtons() {
         addFriendButton.addTarget(self, action: #selector(addFriendButtonPress(_:)), for: .touchUpInside)
         createGroupButton.addTarget(self, action: #selector(createGroupButtonPress(_:)), for: .touchUpInside)
+        addFriendTextField.addTarget(self, action: #selector(addFriendTextFieldBeginEditing(_:)), for: .editingDidBegin)
         let screenTapGesture = UITapGestureRecognizer(target: self, action: #selector(stopEditingTextField))
         view.addGestureRecognizer(screenTapGesture)
     }
@@ -55,6 +58,22 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         if isAnyFriendSelected() {
             createGroup()
         }
+    }
+    
+    @objc private func addFriendTextFieldBeginEditing(_ sender: UITextField) {
+        refreshSearchTextField()
+    }
+    
+    private func refreshSearchTextField() {
+        var availableUsers = [String]()
+        for user in DataManager.userList {
+            if user != DataManager.user!.id {
+                if !DataManager.user!.friendIDs.contains(user) {
+                    availableUsers += [user]
+                }
+            }
+        }
+        addFriendTextField.filterStrings(availableUsers)
     }
     
     private func setupFriendList() {
@@ -85,15 +104,18 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         let friendEmail = cell!.contentView.subviews[2] as! UILabel
         friendEmail.text = friend.id
         let friendButton = cell!.contentView.subviews[3] as! UIButton
-        friendButton.addTarget(self, action: #selector(friendCellButtonPress(_:)), for: .touchDown)
+        let friendTapGesture = UITapGestureRecognizer(target: self, action: #selector(friendCellButtonPress(_:)))
+        friendButton.addGestureRecognizer(friendTapGesture)
+        let friendLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(friendCellButtonLongPress(_:)))
+        friendButton.addGestureRecognizer(friendLongPressGesture)
         friendButton.tag = indexPath.row + 100
         return cell!
     }
     
-    @objc private func friendCellButtonPress(_ sender: UIButton) {
-        let friend = DataManager.user!.friends[sender.tag - 100]
+    @objc private func friendCellButtonPress(_ sender: UITapGestureRecognizer) {
+        let friend = DataManager.user!.friends[sender.view!.tag - 100]
         friend.selected = !friend.selected
-        let background = sender.superview!.subviews[0]
+        let background = sender.view!.superview!.subviews[0]
         UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveLinear], animations: {
             background.alpha = friend.selected ? 1.0 : 0.0
         }, completion: {
@@ -101,6 +123,12 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         })
         updateCreateGroupButtonColor()
         stopEditingTextField()
+    }
+    
+    @objc private func friendCellButtonLongPress(_ sender: UILongPressGestureRecognizer) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        let friend = DataManager.user!.friends[sender.view!.tag - 100]
+        removeFriend(friend)
     }
     
     @objc private func stopEditingTextField() {
@@ -140,8 +168,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                     self.refreshData()
                     if let token = user.registrationToken {
                         BackendManager.sendAddedAsFriendMessage(
-                            to: token,
-                            DataManager.user!.id, DataManager.user!.name
+                            to: token, DataManager.user!.id, DataManager.user!.name
                         )
                     }
                 } else {
@@ -153,6 +180,24 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         }
         addFriendTextField.text = ""
         stopEditingTextField()
+    }
+    
+    private func removeFriend(_ friend: User) {
+        let alert = UIAlertController(title: "Squad Up", message: "Remove this friend?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) {
+            action in
+            BackendManager.unfriend(DataManager.user!, friend)
+            self.refreshData()
+            if let token = friend.registrationToken {
+                BackendManager.sendRemovedAsFriendMessage(
+                    to: token, DataManager.user!.id, DataManager.user!.name
+                )
+            }
+        }
+        let noAction = UIAlertAction(title: "No", style: .cancel)
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        baseScreen.present(alert, animated: true)
     }
     
     private func createGroup() {
@@ -168,7 +213,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
             textField in
             textField.placeholder = "Enter group name"
         }
-        let okAction = UIAlertAction(title: "OK", style: .default) {
+        let createAction = UIAlertAction(title: "Create", style: .default) {
             action in
             if let textFields = alert.textFields {
                 let textField = textFields[0]
@@ -181,9 +226,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                         friend.groupIDs += [createdGroup.id]
                         friend.groups += [createdGroup]
                     }
-                    
                     BackendManager.createGroupRecord(createdGroup)
-                    
                     var recipients = [String]()
                     for friend in selectedFriends {
                         BackendManager.createUserRecord(friend)
@@ -193,7 +236,6 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                             }
                         }
                     }
-                    
                     for recipient in recipients {
                         BackendManager.sendAddedToGroupMessage(
                             to: recipient,
@@ -201,7 +243,6 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                             createdGroup.id, createdGroup.name
                         )
                     }
-                    
                     self.resetSelectedFriends()
                     self.refreshData()
                 } else {
@@ -210,7 +251,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(okAction)
+        alert.addAction(createAction)
         alert.addAction(cancelAction)
         baseScreen.present(alert, animated: true)
     }

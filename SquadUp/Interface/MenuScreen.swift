@@ -18,13 +18,9 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
     
     internal override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Squad Up"
         showSignOutButton()
         setupTabViews()
-    }
-    
-    internal override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        title = "Squad Up"
     }
     
     internal override func initializeViews() {
