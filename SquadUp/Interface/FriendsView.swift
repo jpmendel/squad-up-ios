@@ -21,25 +21,27 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
 
     internal override func awakeFromNib() {
         super.awakeFromNib()
-        initializeViews()
-        formatScreen()
         setupButtons()
         refreshSearchTextField()
         setupFriendList()
     }
     
-    private func initializeViews() {
+    internal override func initializeViews() {
+        super.initializeViews()
         addFriendTextField = view.viewWithTag(5) as! SearchTextField
         addFriendButton = view.viewWithTag(6) as! UIButton
         friendList = view.viewWithTag(7) as! UITableView
         createGroupButton = view.viewWithTag(8) as! UIButton
     }
     
-    private func formatScreen() {
+    internal override func formatScreen() {
+        super.formatScreen()
         addFriendButton.layer.cornerRadius = 10
         addFriendButton.clipsToBounds = true
+        addFriendButton.backgroundColor = UIColor.appMediumBlue
         createGroupButton.layer.cornerRadius = 10
         createGroupButton.clipsToBounds = true
+        createGroupButton.backgroundColor = UIColor.appMediumGray
     }
     
     private func setupButtons() {
@@ -79,6 +81,8 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     private func setupFriendList() {
         friendList.delegate = self
         friendList.dataSource = self
+        print(DataManager.user!.friendIDs)
+        print(DataManager.user!.friends)
     }
     
     internal func viewWasSelected() {
@@ -245,6 +249,7 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                     }
                     self.resetSelectedFriends()
                     self.refreshData()
+                    self.baseScreen.show(screen: MeetUpScreen.self)
                 } else {
                     self.view.makeToast("Enter a name of at least 2 characters", duration: 2.0, position: .bottom)
                 }

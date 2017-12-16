@@ -25,6 +25,7 @@ class BaseScreen: UIViewController {
         navigationController?.isNavigationBarHidden = false
         initializeViews()
         screenCompatibility()
+        formatScreen()
     }
     
     internal override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +41,8 @@ class BaseScreen: UIViewController {
     internal func initializeViews() { /* Override in subclass */ }
     
     internal func screenCompatibility() { /* Override in subclass */ }
+    
+    internal func formatScreen() { /* Override in subclass */ }
     
     internal func initializeNotificationReceiver() {
         NotificationCenter.default.addObserver(

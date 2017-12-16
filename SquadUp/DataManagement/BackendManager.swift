@@ -352,20 +352,23 @@ class BackendManager {
                 callback(user)
             }
         }
-        for i in 0..<user.friendIDs.count {
-            getUserRecord(user.friendIDs[i]) {
+        let taskGroup = DispatchGroup()
+        for friend in user.friendIDs {
+            taskGroup.enter()
+            getUserRecord(friend) {
                 loadedUser in
                 if let loadedUser = loadedUser {
                     friendList += [loadedUser]
                 }
-                if i == user.friendIDs.count - 1 {
-                    user.friends = friendList
-                    if let callback = callback {
-                        callback(user)
-                    }
-                }
+                taskGroup.leave()
             }
         }
+        taskGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem() {
+            user.friends = friendList
+            if let callback = callback {
+                callback(user)
+            }
+        })
     }
     
     internal static func getGroupData(for user: User, callback: ((User) -> Void)? = nil) {
@@ -376,20 +379,23 @@ class BackendManager {
                 callback(user)
             }
         }
-        for i in 0..<user.groupIDs.count {
-            getGroupRecord(user.groupIDs[i]) {
+        let taskGroup = DispatchGroup()
+        for group in user.groupIDs {
+            taskGroup.enter()
+            getGroupRecord(group) {
                 loadedGroup in
                 if let loadedGroup = loadedGroup {
                     groupList += [loadedGroup]
                 }
-                if i == user.groupIDs.count - 1 {
-                    user.groups = groupList
-                    if let callback = callback {
-                        callback(user)
-                    }
-                }
+                taskGroup.leave()
             }
         }
+        taskGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem() {
+            user.groups = groupList
+            if let callback = callback {
+                callback(user)
+            }
+        })
     }
     
     internal static func getUserList(callback: @escaping ([String]) -> Void) {

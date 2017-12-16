@@ -44,7 +44,6 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         title = "Squad Up"
         initializeMap()
         initializeLocationManager()
-        formatScreen()
         resetValues()
     }
     
@@ -71,11 +70,17 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         }
     }
     
-    private func formatScreen() {
+    internal override func formatScreen() {
+        super.formatScreen()
         meetNowButton.layer.cornerRadius = 10
         meetNowButton.clipsToBounds = true
+        meetNowButton.backgroundColor = UIColor.appMediumGray
         notifyGroupButton.layer.cornerRadius = 10
         notifyGroupButton.clipsToBounds = true
+        notifyGroupButton.backgroundColor = UIColor.appMediumBlue
+        continueButton.layer.cornerRadius = 10
+        continueButton.clipsToBounds = true
+        continueButton.backgroundColor = UIColor.appMediumGray
     }
     
     private func resetValues() {

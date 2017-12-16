@@ -14,11 +14,11 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
     internal override func awakeFromNib() {
         super.awakeFromNib()
-        initializeViews()
         setupGroupList()
     }
     
-    private func initializeViews() {
+    internal override func initializeViews() {
+        super.initializeViews()
         groupList = view.viewWithTag(4) as! UITableView
     }
     

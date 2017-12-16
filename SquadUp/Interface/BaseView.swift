@@ -23,6 +23,13 @@ class BaseView: UIView {
         super.init(coder: aDecoder)
         xibSetup()
     }
+    
+    internal override func awakeFromNib() {
+        super.awakeFromNib()
+        initializeViews()
+        screenCompatibility()
+        formatScreen()
+    }
 
     private func loadXibFile() -> UIView {
         let bundle = Bundle(for: type(of: self))
@@ -50,5 +57,11 @@ class BaseView: UIView {
             views: ["childView": view])
         )
     }
+    
+    internal func initializeViews() { /* Override in subclass */ }
+    
+    internal func screenCompatibility() { /* Override in subclass */ }
+    
+    internal func formatScreen() { /* Override in subclass */ }
 
 }
