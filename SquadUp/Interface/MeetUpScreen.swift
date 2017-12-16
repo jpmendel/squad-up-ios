@@ -19,6 +19,8 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private var notifyGroupButton: UIButton!
     
+    private var continueButton: UIButton!
+    
     private var locationManager = CLLocationManager()
     
     private var myLocation: CLLocation? = nil
@@ -27,9 +29,15 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private var locationMarkers = [MKAnnotation]()
     
+    private var meetingLocationName: String? = nil
+    
+    private var meetingLocationCoordinate: CLLocationCoordinate2D? = nil
+    
     private var user: User!
     
     private var group: Group!
+    
+    private var findingMeetingLocation: Bool = false
 
     internal override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +59,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         statusText = view.viewWithTag(2) as! UILabel
         meetNowButton = view.viewWithTag(3) as! UIButton
         notifyGroupButton = view.viewWithTag(4) as! UIButton
+        continueButton = view.viewWithTag(5) as! UIButton
         hideUIOffScreen()
         startAnimatingText()
     }
@@ -78,8 +87,9 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private func hideUIOffScreen() {
         map.transform = CGAffineTransform.identity.translatedBy(x: -view.frame.width, y: 0.0)
-        meetNowButton.transform = CGAffineTransform.identity.translatedBy(x: -view.frame.width, y: 0.0)
-        notifyGroupButton.transform = CGAffineTransform.identity.translatedBy(x: -view.frame.width, y: 0.0)
+        meetNowButton.transform = CGAffineTransform.identity.translatedBy(x: 0.0, y: 100.0)
+        notifyGroupButton.transform = CGAffineTransform.identity.translatedBy(x: 0.0, y: 100.0)
+        continueButton.transform = CGAffineTransform.identity.translatedBy(x: 0.0, y: 100.0)
     }
     
     private func initializeMap() {
@@ -162,24 +172,10 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         map.setRegion(region, animated: true)
     }
     
-    private func addLocation(_ location: CLLocationCoordinate2D, for id: String, named name: String) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = location
-        annotation.title = name
-        locationMarkers += [annotation]
-        map.addAnnotation(annotation)
-    }
-    
-    private func sendLoginMessage() {
-        if let location = myLocation {
-            BackendManager.sendLoginMessage(to: group.id, user.id, user.name, location.coordinate.latitude, location.coordinate.longitude)
-        }
-    }
-    
-    private func sendLocationMessage() {
-        if let location = myLocation {
-            BackendManager.sendLocationMessage(to: group.id, user.id, user.name, location.coordinate.latitude, location.coordinate.longitude)
-        }
+    private func distanceBetween(_ point1: CLLocationCoordinate2D, _ point2: CLLocationCoordinate2D) -> Double {
+        let latDiffMeters = point1.latitude - point2.latitude
+        let longDiffMeters = point1.longitude - point2.longitude
+        return sqrt(pow(latDiffMeters, 2.0) + pow(longDiffMeters, 2.0)) * Constants.metersPerDegree
     }
     
     internal func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -195,6 +191,159 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
             }
             pin.pinTintColor = UIColor.appMediumOrange
             return pin
+        }
+    }
+    
+    internal func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKPolyline {
+            let line = overlay
+            let lineRenderer = MKPolylineRenderer(overlay: line)
+            lineRenderer.strokeColor = UIColor.black
+            lineRenderer.lineWidth = 3.0
+            lineRenderer.alpha = 0.8
+            return lineRenderer
+        }
+        return MKPolylineRenderer()
+    }
+    
+    private func addLocation(_ location: CLLocationCoordinate2D, for id: String, named name: String) {
+        if locations[id] == nil {
+            locations[id] = location
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location
+            annotation.title = name
+            locationMarkers += [annotation]
+            map.addAnnotation(annotation)
+            if locations.count > 1 {
+                meetNowButton.backgroundColor = UIColor.appMediumBlue
+            }
+        }
+    }
+    
+    private func addLineToMap(_ start: CLLocationCoordinate2D, _ end: CLLocationCoordinate2D) {
+        var points = [start, end]
+        let overlay = MKPolyline(coordinates: &points, count: points.count)
+        map.add(overlay)
+    }
+    
+    private func addMeetingLocationToMap(_ location: CLLocationCoordinate2D, named name: String) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = name
+        locationMarkers += [annotation]
+        map.addAnnotation(annotation)
+    }
+    
+    private func sendLoginMessage() {
+        if let location = myLocation {
+            BackendManager.sendLoginMessage(to: group.id, user.id, user.name, location.coordinate.latitude, location.coordinate.longitude)
+        }
+    }
+    
+    private func sendMyLocation() {
+        if let location = myLocation {
+            BackendManager.sendLocationMessage(to: group.id, user.id, user.name, location.coordinate.latitude, location.coordinate.longitude)
+        }
+    }
+    
+    private func checkAllMembersPresent() -> Bool {
+        for member in group.memberIDs {
+            if locations[member] == nil {
+                return false
+            }
+        }
+        return true
+    }
+    
+    private func updateMembersRemainingText() {
+        let membersRemaining = group.memberIDs.count - locations.keys.count
+        if membersRemaining == group.memberIDs.count - 1 {
+            statusText.text = "Waiting For Others..."
+        } else if membersRemaining == 1 {
+            for member in group.members {
+                if locations[member.id] == nil {
+                    statusText.text = "Waiting on \(member.name)"
+                    break
+                }
+            }
+        } else {
+            statusText.text = "Waiting on \(membersRemaining) members..."
+        }
+    }
+    
+    private func calculateCenterPoint() -> CLLocationCoordinate2D {
+        var minLat = 0.0
+        var maxLat = 0.0
+        var minLong = 0.0
+        var maxLong = 0.0
+        for location in locations.values {
+            if minLat == 0.0 {
+                minLat = location.latitude
+                maxLat = location.latitude
+            }
+            if minLong == 0.0 {
+                minLong = location.longitude
+                maxLong = location.longitude
+            }
+            if location.latitude < minLat {
+                minLat = location.latitude
+            } else if location.latitude > maxLat {
+                maxLat = location.latitude
+            }
+            if location.longitude < minLong {
+                minLong = location.longitude
+            } else if location.longitude > maxLong {
+                maxLong = location.longitude
+            }
+        }
+        let avgLat = (minLat + maxLat) / 2.0
+        let avgLong = (minLong + maxLong) / 2.0
+        return CLLocationCoordinate2DMake(avgLat, avgLong)
+    }
+    
+    private func findClosestBuilding(to point: CLLocationCoordinate2D) {
+        var closestName: String? = nil
+        var closestCoordinate: CLLocationCoordinate2D? = nil
+        for (name, coordinate) in Constants.meetingLocations {
+            if closestName == nil && closestCoordinate == nil {
+                closestName = name
+                closestCoordinate = coordinate
+            } else {
+                if distanceBetween(point, coordinate) < distanceBetween(point, closestCoordinate!) {
+                    closestName = name
+                    closestCoordinate = coordinate
+                }
+            }
+        }
+        meetingLocationName = closestName
+        meetingLocationCoordinate = closestCoordinate
+    }
+    
+    private func findMeetingLocation() {
+        findingMeetingLocation = true
+        BackendManager.stopListening(to: group.id)
+        stopAnimatingText()
+        meetNowButton.backgroundColor = UIColor.appMediumGray
+        notifyGroupButton.backgroundColor = UIColor.appMediumGray
+        statusText.text = "Calculating..."
+        let centerPoint = calculateCenterPoint()
+        findClosestBuilding(to: centerPoint)
+        locations["meeting_location"] = meetingLocationCoordinate!
+        var delay = 1.0
+        for location in locations.values {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.addLineToMap(location, centerPoint)
+            }
+            delay += 0.5
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0 + Double(locations.count) * 0.5) {
+            self.addLineToMap(centerPoint, self.meetingLocationCoordinate!)
+            self.addMeetingLocationToMap(self.meetingLocationCoordinate!, named: self.meetingLocationName!)
+            self.statusText.text = "Squad Up!"
+            self.map.isScrollEnabled = true
+            self.map.isZoomEnabled = true
+            self.zoomToFit()
+            self.animateSwitchButtons()
         }
     }
     
@@ -223,7 +372,25 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     @objc private func loginNotification(_ notification: Notification) {
-        
+        if let data = notification.object as? [AnyHashable: Any] {
+            let senderID = data["senderID"] as! String
+            if user.id != senderID {
+                let senderName = data["senderName"] as! String
+                let latitude = data["latitude"] as? Double ?? 0.0
+                let longitude = data["longitude"] as? Double ?? 0.0
+                if locations[senderID] != nil {
+                    let coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+                    addLocation(coordinate, for: senderID, named: senderName)
+                    zoomToFit()
+                    updateMembersRemainingText()
+                    view.makeToast("\(senderName) Has Joined!", duration: 2.0, position: .bottom)
+                }
+                sendMyLocation()
+                if checkAllMembersPresent() {
+                    findMeetingLocation()
+                }
+            }
+        }
     }
     
     @objc private func locationNotification(_ notification: Notification) {
@@ -262,6 +429,20 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
             self.notifyGroupButton.transform = CGAffineTransform.identity
         }, completion: {
             finished in
+        })
+    }
+    
+    private func animateSwitchButtons() {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseOut], animations: {
+            self.meetNowButton.transform = CGAffineTransform.identity.translatedBy(x: 0.0, y: 100.0)
+            self.notifyGroupButton.transform = CGAffineTransform.identity.translatedBy(x: 0.0, y: 100.0)
+        }, completion: {
+            finished in
+            UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseIn], animations: {
+                self.continueButton.transform = CGAffineTransform.identity
+            }, completion: {
+                finished in
+            })
         })
     }
 

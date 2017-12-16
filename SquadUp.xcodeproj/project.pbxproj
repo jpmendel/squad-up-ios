@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161B2E051FE4D852002D826D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161B2E041FE4D852002D826D /* Constants.swift */; };
 		161C7F8A1FDC9C7A00F4AEA7 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C7F881FDC9C7A00F4AEA7 /* LoginScreen.swift */; };
 		161C7F8B1FDC9C7A00F4AEA7 /* LoginScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161C7F891FDC9C7A00F4AEA7 /* LoginScreen.xib */; };
 		161F3EF81FDA3A6D0048AAB4 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161F3EF61FDA3A6D0048AAB4 /* MenuScreen.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161B2E041FE4D852002D826D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		161C7F881FDC9C7A00F4AEA7 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		161C7F891FDC9C7A00F4AEA7 /* LoginScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginScreen.xib; sourceTree = "<group>"; };
 		161F3EF61FDA3A6D0048AAB4 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				16D59B6B1FDB21C60025EAA9 /* Group.swift */,
 				16A766011FDB49E100E0C93D /* ServerData.swift */,
 				167D52361FDC6A18004C8DEA /* FirebaseMessage.swift */,
+				161B2E041FE4D852002D826D /* Constants.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				16346A431FE218360059FEA8 /* Toast.swift in Sources */,
 				16D59B6A1FDB21AE0025EAA9 /* User.swift in Sources */,
 				16BAADDF1FE2076F00967EE5 /* Array+Util.swift in Sources */,
+				161B2E051FE4D852002D826D /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

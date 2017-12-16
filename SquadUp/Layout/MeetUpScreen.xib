@@ -30,7 +30,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </mapView>
                 <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hRu-FX-mtT">
-                    <rect key="frame" x="20" y="592" width="157" height="60"/>
+                    <rect key="frame" x="20" y="592" width="157.5" height="60"/>
                     <color key="backgroundColor" red="0.0" green="0.25882352939999997" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="50Q-fl-QnS"/>
@@ -40,7 +40,7 @@
                     </state>
                 </button>
                 <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Das-x3-fcW">
-                    <rect key="frame" x="197" y="592" width="158" height="60"/>
+                    <rect key="frame" x="197.5" y="592" width="157.5" height="60"/>
                     <color key="backgroundColor" red="0.0" green="0.25882352939999997" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="HMY-6O-Q7W"/>
@@ -56,13 +56,26 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyN-Tx-dmz">
+                    <rect key="frame" x="20" y="592" width="335" height="60"/>
+                    <color key="backgroundColor" red="0.0" green="0.25882352939999997" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="Vnk-YX-RgL"/>
+                    </constraints>
+                    <state key="normal" title="Continue">
+                        <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Das-x3-fcW" secondAttribute="trailing" constant="20" id="53W-ID-Qe8"/>
                 <constraint firstItem="Das-x3-fcW" firstAttribute="width" secondItem="hRu-FX-mtT" secondAttribute="width" id="89Z-nM-fvA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dyN-Tx-dmz" secondAttribute="bottom" constant="15" id="DON-B8-fit"/>
                 <constraint firstItem="Das-x3-fcW" firstAttribute="height" secondItem="hRu-FX-mtT" secondAttribute="height" id="Ig2-Mg-fpV"/>
                 <constraint firstItem="hRu-FX-mtT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Mz4-YN-wDF"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dyN-Tx-dmz" secondAttribute="trailing" constant="20" id="NcH-pO-7wU"/>
+                <constraint firstItem="dyN-Tx-dmz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Spu-c4-560"/>
                 <constraint firstItem="Das-x3-fcW" firstAttribute="leading" secondItem="hRu-FX-mtT" secondAttribute="trailing" constant="20" id="e2Q-t7-ewO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Das-x3-fcW" secondAttribute="bottom" constant="15" id="eXo-oE-raB"/>
                 <constraint firstItem="Das-x3-fcW" firstAttribute="centerY" secondItem="hRu-FX-mtT" secondAttribute="centerY" id="iA8-Re-ABu"/>
