@@ -2,7 +2,7 @@
 //  UIView+Util.swift
 //  SquadUp
 //
-//  Created by Jacob on 12/8/17.
+//  Created by Jacob Mendelowitz on 12/8/17.
 //  Copyright © 2017 Jacob Mendelowitz. All rights reserved.
 //
 

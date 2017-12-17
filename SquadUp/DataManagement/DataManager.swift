@@ -13,6 +13,8 @@ class DataManager {
     
     internal static var user: User? = nil
     
+    internal static var group: Group? = nil
+    
     internal static var userList = [String]()
     
     internal static func configure() {

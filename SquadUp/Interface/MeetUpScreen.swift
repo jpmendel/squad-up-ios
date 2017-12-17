@@ -84,8 +84,8 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     private func resetValues() {
-        user = User("test@email.com", "Test User")
-        group = Group(withName: "Test Group")
+        user = DataManager.user!
+        group = DataManager.group!
         locations = [String: CLLocationCoordinate2D]()
         locationMarkers = [MKAnnotation]()
     }
@@ -123,6 +123,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         setInitialRegion()
         sendLoginMessage()
         animateScreenIn()
+        updateMembersRemainingText()
     }
     
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

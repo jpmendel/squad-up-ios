@@ -81,8 +81,6 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     private func setupFriendList() {
         friendList.delegate = self
         friendList.dataSource = self
-        print(DataManager.user!.friendIDs)
-        print(DataManager.user!.friends)
     }
     
     internal func viewWasSelected() {
@@ -249,7 +247,6 @@ class FriendsView: BaseView, UITableViewDelegate, UITableViewDataSource {
                     }
                     self.resetSelectedFriends()
                     self.refreshData()
-                    self.baseScreen.show(screen: MeetUpScreen.self)
                 } else {
                     self.view.makeToast("Enter a name of at least 2 characters", duration: 2.0, position: .bottom)
                 }

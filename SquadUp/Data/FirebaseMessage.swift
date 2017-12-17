@@ -10,13 +10,13 @@ import Foundation
 
 class FirebaseMessage {
     
-    internal static let login = "LOGIN"
-    internal static let location = "LOCATION"
-    internal static let readyRequest = "READY_REQUEST"
-    internal static let readyResponse = "READY_RESPONSE"
-    internal static let readyDecision = "READY_DECISION"
-    internal static let addedAsFriend = "ADDED_AS_FRIEND"
-    internal static let removedAsFriend = "REMOVED_AS_FRIEND"
-    internal static let addedToGroup = "ADDED_TO_GROUP"
+    internal static let login = "com.squadup.login"
+    internal static let location = "com.squadup.location"
+    internal static let readyRequest = "com.squadup.readyRequest"
+    internal static let readyResponse = "com.squadup.readyResponse"
+    internal static let readyDecision = "com.squadup.readyDecision"
+    internal static let addedAsFriend = "com.squadup.addedAsFriend"
+    internal static let removedAsFriend = "com.squadup.removedAsFriend"
+    internal static let addedToGroup = "com.squadup.addedToGroup"
     
 }

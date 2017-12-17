@@ -43,6 +43,7 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
     private func setupTabViews() {
         tabMenu.delegate = self
         friendsView.transform = CGAffineTransform.identity.translatedBy(x: view.frame.width, y: 0.0)
+        tabMenu.selectedItem = tabMenu.items![0]
     }
     
     internal func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

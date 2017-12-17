@@ -43,7 +43,17 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
         }
         let groupName = cell!.contentView.subviews[0] as! UILabel
         groupName.text = DataManager.user?.groups[indexPath.row].name ?? "Group Name"
+        let groupButton = cell!.contentView.subviews[1] as! UIButton
+        let groupTapGesture = UITapGestureRecognizer(target: self, action: #selector(groupCellButtonPress(_:)))
+        groupButton.addGestureRecognizer(groupTapGesture)
+        groupButton.tag = indexPath.row + 100
         return cell!
+    }
+    
+    @objc private func groupCellButtonPress(_ sender: UITapGestureRecognizer) {
+        let group = DataManager.user!.groups[sender.view!.tag - 100]
+        DataManager.group = group
+        baseScreen.show(screen: MeetUpScreen.self)
     }
     
     internal func refreshData() {
