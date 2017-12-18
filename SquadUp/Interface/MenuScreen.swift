@@ -35,8 +35,8 @@ class MenuScreen: BaseScreen, UITabBarDelegate, UITabBarControllerDelegate {
     internal override func screenCompatibility() {
         super.screenCompatibility()
         if UIScreen.main.screenSize == .iPhoneX {
-            groupsView.iPhoneXNavBarCorrection()
-            friendsView.iPhoneXNavBarCorrection()
+            groupsView.iPhoneXNavBarHeightCorrection()
+            friendsView.iPhoneXNavBarHeightCorrection()
         }
     }
     

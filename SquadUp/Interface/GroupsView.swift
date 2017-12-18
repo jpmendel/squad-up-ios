@@ -52,8 +52,14 @@ class GroupsView: BaseView, UITableViewDelegate, UITableViewDataSource {
     
     @objc private func groupCellButtonPress(_ sender: UITapGestureRecognizer) {
         let group = DataManager.user!.groups[sender.view!.tag - 100]
-        DataManager.group = group
-        baseScreen.show(screen: MeetUpScreen.self)
+        BackendManager.getMemberData(for: group) {
+            groupWithMembers in
+            DataManager.group = groupWithMembers
+            self.baseScreen.show(screen: GroupViewScreen.self) {
+                destination in
+                destination.group = DataManager.group!
+            }
+        }
     }
     
     internal func refreshData() {

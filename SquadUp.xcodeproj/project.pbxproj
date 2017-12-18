@@ -42,6 +42,10 @@
 		16E3A1851FDA36AA00F9B1D0 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3A1841FDA36AA00F9B1D0 /* DataManager.swift */; };
 		16E3A1871FDA36FC00F9B1D0 /* UIColor+Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E3A1861FDA36FC00F9B1D0 /* UIColor+Colors.swift */; };
 		16E3A1881FDA399600F9B1D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16798B991FDA33D800E157B4 /* GoogleService-Info.plist */; };
+		16FB81221FE7230C002D6396 /* flagPersonWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 16FB81211FE7230C002D6396 /* flagPersonWhite.png */; };
+		16FB81241FE73ED5002D6396 /* flagPersonOrangeSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 16FB81231FE73ED5002D6396 /* flagPersonOrangeSmall.png */; };
+		16FB81271FE74203002D6396 /* GroupViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB81251FE74203002D6396 /* GroupViewScreen.swift */; };
+		16FB81281FE74203002D6396 /* GroupViewScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16FB81261FE74203002D6396 /* GroupViewScreen.xib */; };
 		C7E605B70AA07A134EFDC7E1 /* Pods_SquadUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE229BCE8F47B1E84F95E769 /* Pods_SquadUp.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +87,10 @@
 		16D59B731FDB28CD0025EAA9 /* FriendCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
 		16E3A1841FDA36AA00F9B1D0 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		16E3A1861FDA36FC00F9B1D0 /* UIColor+Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Colors.swift"; sourceTree = "<group>"; };
+		16FB81211FE7230C002D6396 /* flagPersonWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flagPersonWhite.png; path = Images/flagPersonWhite.png; sourceTree = "<group>"; };
+		16FB81231FE73ED5002D6396 /* flagPersonOrangeSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = flagPersonOrangeSmall.png; path = Images/flagPersonOrangeSmall.png; sourceTree = "<group>"; };
+		16FB81251FE74203002D6396 /* GroupViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewScreen.swift; sourceTree = "<group>"; };
+		16FB81261FE74203002D6396 /* GroupViewScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupViewScreen.xib; sourceTree = "<group>"; };
 		98EC4C7F9FBC6EBF7F1CC82C /* Pods-SquadUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SquadUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SquadUp/Pods-SquadUp.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2895265088AB0638115432 /* Pods-SquadUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SquadUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SquadUp/Pods-SquadUp.release.xcconfig"; sourceTree = "<group>"; };
 		BE229BCE8F47B1E84F95E769 /* Pods_SquadUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SquadUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				16798B741FDA2AED00E157B4 /* SquadUp */,
+				16FB81201FE722FF002D6396 /* Images */,
 				16798B731FDA2AED00E157B4 /* Products */,
 				459E4037DDA1AF09F9147EA3 /* Pods */,
 				CBD2F2ADE660B532A46AC3F8 /* Frameworks */,
@@ -153,6 +162,7 @@
 				16D59B671FDB18AB0025EAA9 /* BaseView.swift */,
 				167E37A31FDA652C003AA88E /* GroupsView.swift */,
 				16D59B651FDB17060025EAA9 /* FriendsView.swift */,
+				16FB81251FE74203002D6396 /* GroupViewScreen.swift */,
 				16712D0B1FDCB19E0048A5AB /* MeetUpScreen.swift */,
 			);
 			path = Interface;
@@ -194,6 +204,7 @@
 				16798B931FDA2D2E00E157B4 /* LaunchScreen.xib */,
 				161C7F891FDC9C7A00F4AEA7 /* LoginScreen.xib */,
 				161F3EF71FDA3A6D0048AAB4 /* MenuScreen.xib */,
+				16FB81261FE74203002D6396 /* GroupViewScreen.xib */,
 				16712D0C1FDCB19E0048A5AB /* MeetUpScreen.xib */,
 				167E37A51FDA6538003AA88E /* GroupsView.xib */,
 				168777F51FDAFE1D004447D1 /* FriendsView.xib */,
@@ -215,6 +226,16 @@
 				16BAADDE1FE2076F00967EE5 /* Array+Util.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		16FB81201FE722FF002D6396 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				16FB81211FE7230C002D6396 /* flagPersonWhite.png */,
+				16FB81231FE73ED5002D6396 /* flagPersonOrangeSmall.png */,
+			);
+			name = Images;
+			path = SquadUp;
 			sourceTree = "<group>";
 		};
 		459E4037DDA1AF09F9147EA3 /* Pods */ = {
@@ -302,6 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16FB81221FE7230C002D6396 /* flagPersonWhite.png in Resources */,
 				16712D0E1FDCB19E0048A5AB /* MeetUpScreen.xib in Resources */,
 				168777F61FDAFE1D004447D1 /* FriendsView.xib in Resources */,
 				16A765FA1FDB435400E0C93D /* GroupCell.xib in Resources */,
@@ -309,6 +331,8 @@
 				16798B801FDA2AEE00E157B4 /* LaunchScreen.storyboard in Resources */,
 				167E37A61FDA6538003AA88E /* GroupsView.xib in Resources */,
 				16E3A1881FDA399600F9B1D0 /* GoogleService-Info.plist in Resources */,
+				16FB81281FE74203002D6396 /* GroupViewScreen.xib in Resources */,
+				16FB81241FE73ED5002D6396 /* flagPersonOrangeSmall.png in Resources */,
 				16798B951FDA2D2E00E157B4 /* LaunchScreen.xib in Resources */,
 				161C7F8B1FDC9C7A00F4AEA7 /* LoginScreen.xib in Resources */,
 				16798B7D1FDA2AEE00E157B4 /* Assets.xcassets in Resources */,
@@ -424,6 +448,7 @@
 				16D59B6A1FDB21AE0025EAA9 /* User.swift in Sources */,
 				16BAADDF1FE2076F00967EE5 /* Array+Util.swift in Sources */,
 				161B2E051FE4D852002D826D /* Constants.swift in Sources */,
+				16FB81271FE74203002D6396 /* GroupViewScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,8 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private var continueButton: UIButton!
     
+    private var loadingImage: UIImageView!
+    
     private var locationManager = CLLocationManager()
     
     private var myLocation: CLLocation? = nil
@@ -42,6 +44,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     internal override func viewDidLoad() {
         super.viewDidLoad()
         title = "Squad Up"
+        showBackButton()
         initializeMap()
         initializeLocationManager()
         resetValues()
@@ -59,14 +62,16 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         meetNowButton = view.viewWithTag(3) as! UIButton
         notifyGroupButton = view.viewWithTag(4) as! UIButton
         continueButton = view.viewWithTag(5) as! UIButton
+        loadingImage = view.viewWithTag(6) as! UIImageView
         hideUIOffScreen()
         startAnimatingText()
+        startAnimatingLoadingImage()
     }
     
     internal override func screenCompatibility() {
         super.screenCompatibility()
         if UIScreen.main.screenSize == .iPhoneX {
-            map.iPhoneXNavBarCorrection()
+            map.iPhoneXNavBarHeightCorrection()
         }
     }
     
@@ -122,6 +127,7 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         initializeMeetUpNotificationReceiver()
         setInitialRegion()
         sendLoginMessage()
+        stopAnimatingLoadingImage()
         animateScreenIn()
         updateMembersRemainingText()
     }
@@ -188,15 +194,16 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
         if annotation is MKUserLocation {
             return nil
         } else {
-            var pin: MKPinAnnotationView
-            if let marker = mapView.dequeueReusableAnnotationView(withIdentifier: "pin") as? MKPinAnnotationView {
-                marker.annotation = annotation
-                pin = marker
+            var marker: MKAnnotationView
+            if let reusableMarker = mapView.dequeueReusableAnnotationView(withIdentifier: "flagPerson") {
+                reusableMarker.annotation = annotation
+                marker = reusableMarker
             } else {
-                pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+                marker = MKAnnotationView(annotation: annotation, reuseIdentifier: "flagPerson")
             }
-            pin.pinTintColor = UIColor.appMediumOrange
-            return pin
+            marker.image = UIImage(named: "flagPersonOrangeSmall.png")
+            marker.canShowCallout = true
+            return marker
         }
     }
     
@@ -426,6 +433,22 @@ class MeetUpScreen: BaseScreen, MKMapViewDelegate, CLLocationManagerDelegate {
     
     private func stopAnimatingText() {
         statusText.layer.removeAllAnimations()
+        statusText.alpha = 1.0
+    }
+    
+    private func startAnimatingLoadingImage() {
+        loadingImage.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+        loadingImage.center = CGPoint(x: loadingImage.center.x, y: loadingImage.center.y + loadingImage.frame.height / 2)
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.autoreverse, .repeat], animations: {
+            self.loadingImage.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 1.1)
+        }, completion: {
+            finished in
+        })
+    }
+    
+    private func stopAnimatingLoadingImage() {
+        loadingImage.layer.removeAllAnimations()
+        loadingImage.alpha = 0.0
     }
     
     private func animateScreenIn() {

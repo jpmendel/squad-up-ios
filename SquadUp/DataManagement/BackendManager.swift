@@ -398,6 +398,33 @@ class BackendManager {
         })
     }
     
+    internal static func getMemberData(for group: Group, callback: ((Group) -> Void)? = nil) {
+        var memberList = [User]()
+        if group.memberIDs.isEmpty {
+            group.members = memberList
+            if let callback = callback {
+                callback(group)
+            }
+        }
+        let taskGroup = DispatchGroup()
+        for member in group.memberIDs {
+            taskGroup.enter()
+            getUserRecord(member) {
+                loadedMember in
+                if let loadedMember = loadedMember {
+                    memberList += [loadedMember]
+                }
+                taskGroup.leave()
+            }
+        }
+        taskGroup.notify(queue: DispatchQueue.main, work: DispatchWorkItem() {
+            group.members = memberList
+            if let callback = callback {
+                callback(group)
+            }
+        })
+    }
+    
     internal static func getUserList(callback: @escaping ([String]) -> Void) {
         firestoreDatabase.collection(userList).document(userList)
             .getDocument() {

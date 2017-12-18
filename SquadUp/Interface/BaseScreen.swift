@@ -129,12 +129,21 @@ class BaseScreen: UIViewController {
         }
     }
     
+    internal func showBackButton() {
+        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPress(_:)))
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    @objc internal func backButtonPress(_ sender: UIBarButtonItem) {
+        back()
+    }
+    
     internal func showSignOutButton() {
-        let signOutButton = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOut(_:)))
+        let signOutButton = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutButtonPress(_:)))
         navigationItem.rightBarButtonItem = signOutButton
     }
     
-    @objc internal func signOut(_ sender: UIBarButtonItem) {
+    @objc internal func signOutButtonPress(_ sender: UIBarButtonItem) {
         GIDSignIn.sharedInstance().signOut()
         back(to: LoginScreen.self)
     }

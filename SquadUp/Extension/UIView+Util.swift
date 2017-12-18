@@ -10,8 +10,12 @@ import UIKit
 
 extension UIView {
     
-    internal func iPhoneXNavBarCorrection() {
+    internal func iPhoneXNavBarHeightCorrection() {
         frame = CGRect(x: frame.minX, y: frame.minY + 24, width: frame.width, height: frame.height - 24)
+    }
+    
+    internal func iPhoneXNavBarPositionCorrection() {
+        frame = CGRect(x: frame.minX, y: frame.minY + 24, width: frame.width, height: frame.height)
     }
     
 }

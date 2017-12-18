@@ -10,15 +10,28 @@ import UIKit
 
 extension UIViewController {
     
-    // Shows a new app stack screen.
-    internal func show<T: BaseScreen>(screen: T.Type, animated: Bool = true, setup: ((_ destination: BaseScreen) -> Void)? = nil) {
+    // Shows a new app stack screen on the current navigation controller.
+    internal func show<T: BaseScreen>(screen: T.Type, animated: Bool = true, setup: ((T) -> Void)? = nil) {
         if self is T { return }
         if let layoutName = NSStringFromClass(screen).split(separator: ".").last {
             let viewController = screen.init(nibName: String(describing: layoutName), bundle: nil)
-            if let setupFunction = setup {
-                setupFunction(viewController)
+            if let setup = setup {
+                setup(viewController)
             }
             navigationController?.pushViewController(viewController, animated: animated)
+        }
+    }
+    
+    // Creates a new navigation controller and presents it on top of the current one.
+    internal func present<T: BaseScreen>(screen: T.Type, animated: Bool = true, setup: ((T) -> Void)? = nil) {
+        if self is T { return }
+        if let layoutName = NSStringFromClass(screen).split(separator: ".").last {
+            let viewController = screen.init(nibName: String(describing: layoutName), bundle: nil)
+            let navigationController = UINavigationController(rootViewController: viewController)
+            if let setup = setup {
+                setup(viewController)
+            }
+            present(navigationController, animated: animated, completion: nil)
         }
     }
     
@@ -37,13 +50,6 @@ extension UIViewController {
                 }
             }
         }
-    }
-    
-    internal func createConfirmAlert(title: String, message: String, callback: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: callback)
-        alert.addAction(okAction)
-        present(alert, animated: true)
     }
     
 }
